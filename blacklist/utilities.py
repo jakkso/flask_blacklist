@@ -1,10 +1,10 @@
-"""Test Blacklist class."""
+"""Blacklist utilities."""
 
 from flask import current_app
 
 
 def must_be_initialized(method):
-    """Decorate Blacklist class methods.
+    """Decorate Blacklist class methods to ensure initialization
 
     Ensures that Blacklist has been initialized.
     :param method Blacklist class method
@@ -21,9 +21,8 @@ def must_be_initialized(method):
 
 def _get_blacklist():
     """Return Blacklist extension attached to Flask app."""
-    with current_app.app_context() as app:
-        blacklist = app.extensions.get('blacklist')
-        return blacklist
+    with current_app.app_context():
+        return current_app.extensions.get('blacklist')
 
 
 def is_blacklisted(jti: str) -> bool:

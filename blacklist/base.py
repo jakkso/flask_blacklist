@@ -26,6 +26,25 @@ class Blacklist:
         if app is not None and token_class is not None:
             self.init_app(app, token_class)
 
+    def __eq__(self, other) -> bool:
+        """Evaluate equality."""
+        if other.__class__.__name__ == 'Blacklist':
+            if self.store == other.store:
+                return True
+        return False
+
+    def __repr__(self):
+        """Return `eval`-able string name."""
+        return f'{self.__class__.__name__}()'
+
+    def __str__(self):
+        """Return descriptive string name."""
+        if not self.store:
+            store_items = 0
+        else:
+            store_items = len(self.store)
+        return f'<{self.__class__.__name__} with {store_items} item(s)>'
+
     def init_app(self, app: Flask, token_class) -> None:
         """Deferred Initialization.
 
@@ -46,7 +65,7 @@ class Blacklist:
 
         :return: None
         """
-        if hasattr(app, "extensions") is None:
+        if getattr(app, "extensions") is None:
             app.extensions = {}
         self.token_class = Blacklist._validate_token_class(token_class)
         try:
