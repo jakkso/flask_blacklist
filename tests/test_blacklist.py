@@ -3,8 +3,8 @@
 from unittest import TestCase, main
 from unittest.mock import MagicMock, Mock, patch
 
-from blacklist import Blacklist
-from blacklist.utilities import must_be_initialized, is_blacklisted, _get_blacklist
+from flask_blacklist import Blacklist
+from flask_blacklist.utilities import must_be_initialized, is_blacklisted, _get_blacklist
 
 
 class TestBlacklist(TestCase):

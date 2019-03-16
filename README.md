@@ -1,7 +1,7 @@
 ## 🔥Flask_Blacklist🔥
 
 ### What
-It's a Flask extension designed to work with `sqlalchemy` and `flask_pratorian` to blacklist tokens!
+It's a Flask extension designed to work with `flask_sqlalchemy` and `flask_pratorian` to blacklist tokens!
 
 It stores blacklisted JWT's jti value in an in-memory store, allowing blacklist checks without
 database calls.  However, when a token is blacklisted, it is also persisted to the database.
@@ -15,7 +15,7 @@ database calls.  However, when a token is blacklisted, it is also persisted to t
 ### How
 You *are* using a [virtualenv](https://virtualenv.pypa.io/en/latest/), right?
 
-`pip install flask_blacklist` 
+`pip install flask-blacklist` 
 
 
 Then in your app factory function, initialize `Blacklist` *after* you've initialized your ORM.

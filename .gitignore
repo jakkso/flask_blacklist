@@ -1,0 +1,5 @@
+
+build/
+dist/*
+flask_blacklist.egg-info/
+test_upload.sh
