@@ -72,7 +72,7 @@ class Blacklist:
             self.store = self._load_store_from_database()
         except Exception:
             raise RuntimeError('Error: did you initialize Blacklist '
-                               'after your ORM?')
+                               'after your ORM or forget to initialize the flask app?')
         self.initialized = True
         app.extensions["blacklist"] = self
 

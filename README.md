@@ -1,4 +1,4 @@
-## Flask_Blacklist
+## 🔥Flask_Blacklist🔥
 
 ### What
 It's a Flask extension designed to work with `sqlalchemy` and `flask_pratorian` to blacklist tokens!
@@ -8,12 +8,12 @@ database calls.  However, when a token is blacklisted, it is also persisted to t
 
 ### Why
 
-* Emulate a redis store without external dependencies!
-    * Almost certainly slower than redis (It's python, after all).
-* Why not, it's an excuse to get to know flask a little bit better.
+* Emulate a redis store without actually using redis! 👍
+    * This is almost certainly slower than redis (It's python, after all).
+* Why not, it's an excuse to get to know flask and associated libraries a little bit better. 👍
 
 ### How
-You *are* using a virtualenv, right?
+You *are* using a [virtualenv](https://virtualenv.pypa.io/en/latest/), right?
 
 `pip install flask_blacklist` 
 
@@ -33,14 +33,14 @@ Then in your app factory function, initialize `Blacklist` *after* you've initial
     from app.models import Token, User
     bl.init_app(app, Token) # Initialize after your ORM
     
-    # is_blacklisted is a helper function that Praetorian uses
+    # is_blacklisted is a helper function that Praetorian uses to determine if a token has been blacklisted
     guard.init_app(app, User, is_blacklisted)  
     
 The Token database model needs to have two different class methods:
     
 * `Token.blacklist_jti` 
     * Takes a single parameter, which is the `jti` string extracted from a JWT
-    * Should persist the blacklisted `jti` string to your database.
+    * This method calll persist the blacklisted `jti` string to your database.
 * `Token.get_blacklisted` 
     * Should return a list of already blacklisted tokens from the database
     * The tokens returns should have a `jti` attribute containing string extracted from the token you want to blacklist
@@ -57,5 +57,5 @@ Then, in the route that needs to invalidate the token:
         return jsonify(rv), code
 
 <hr>
-MIT 
-Copyright 2019 Alexander Potts
+
+Copyright 2019 Alexander Potts, MIT license.
