@@ -28,22 +28,20 @@ class Blacklist:
 
     def __eq__(self, other) -> bool:
         """Evaluate equality."""
-        if other.__class__.__name__ == 'Blacklist':
+        if other.__class__.__name__ == "Blacklist":
             if self.store == other.store:
                 return True
         return False
 
     def __repr__(self):
         """Return `eval`-able string name."""
-        return f'{self.__class__.__name__}()'
+        return f"{self.__class__.__name__}()"
 
     def __str__(self):
         """Return descriptive string name."""
-        if not self.store:
-            store_items = 0
-        else:
-            store_items = len(self.store)
-        return f'<{self.__class__.__name__} with {store_items} item(s)>'
+        store_items = 0 if not self.store else len(self.store)
+        plural = '' if store_items == 1 else 's'
+        return f"<{self.__class__.__name__} with {store_items} item{plural}>"
 
     def init_app(self, app: Flask, token_class) -> None:
         """Deferred Initialization.
@@ -71,8 +69,10 @@ class Blacklist:
         try:
             self.store = self._load_store_from_database()
         except Exception:
-            raise RuntimeError('Error: did you initialize Blacklist '
-                               'after your ORM or forget to initialize the flask app?')
+            raise RuntimeError(
+                "Error: did you initialize Blacklist "
+                "after your ORM or forget to initialize the flask app?"
+            )
         self.initialized = True
         app.extensions["blacklist"] = self
 

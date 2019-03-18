@@ -10,6 +10,7 @@ def must_be_initialized(method):
     :param method Blacklist class method
     :raises RuntimeError:
     """
+
     def wrapper(*args, **kwargs):
         if args[0].__class__.__name__ == "Blacklist":
             if args[0].initialized is False:
@@ -22,7 +23,7 @@ def must_be_initialized(method):
 def _get_blacklist():
     """Return Blacklist extension attached to Flask app."""
     with current_app.app_context():
-        return current_app.extensions.get('blacklist')
+        return current_app.extensions.get("blacklist")
 
 
 def is_blacklisted(jti: str) -> bool:

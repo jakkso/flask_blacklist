@@ -1,10 +1,13 @@
 """Test Blacklist."""
-
-from unittest import TestCase, main
+from unittest import TestCase
 from unittest.mock import MagicMock, Mock, patch
 
 from flask_blacklist import Blacklist
-from flask_blacklist.utilities import must_be_initialized, is_blacklisted, _get_blacklist
+from flask_blacklist.utilities import (
+    must_be_initialized,
+    is_blacklisted,
+    _get_blacklist,
+)
 
 
 class TestBlacklist(TestCase):
@@ -67,7 +70,7 @@ class TestBlacklist(TestCase):
         token_class.get_blacklisted = get_blacklisted
         # Patch out call to current_app.app_context.
         # Context is used by the database ORM, but that's being mocked out
-        with patch('werkzeug.local.LocalProxy._get_current_object'):
+        with patch("werkzeug.local.LocalProxy._get_current_object"):
             blacklist = Blacklist(app, token_class)
             get_blacklisted.assert_called()
             self.assertEqual(blacklist.store, {123, 456})
@@ -79,13 +82,15 @@ class TestBlacklist(TestCase):
     def test_magic_methods(self):
         """Magic methods return expected values"""
         bl = Blacklist()
-        self.assertEqual(bl.__repr__(), 'Blacklist()')
-        self.assertEqual(bl.__str__(), '<Blacklist with 0 item(s)>')
+        self.assertEqual(bl.__repr__(), "Blacklist()")
+        self.assertEqual(bl.__str__(), "<Blacklist with 0 items>")
         self.assertTrue(Blacklist() == bl)
         self.assertFalse(bl == 1)
         bl.store = set()
-        bl.store.add('123')
-        self.assertEqual(bl.__str__(), '<Blacklist with 1 item(s)>')
+        bl.store.add("123")
+        self.assertEqual(bl.__str__(), "<Blacklist with 1 item>")
+        bl.store.add("456")
+        self.assertEqual(bl.__str__(), "<Blacklist with 2 items>")
 
 
 class TestMustBeInitialized(TestCase):
@@ -102,7 +107,7 @@ class TestMustBeInitialized(TestCase):
     def test_must_be_initialized_success(self):
         """`must_be_initialized` does not raise error if blacklist initialized."""
         success = MagicMock()
-        success.__class__.__name__ = 'Blacklist'
+        success.__class__.__name__ = "Blacklist"
         success.initialized = True
         success.return_value = True
 
@@ -113,7 +118,7 @@ class TestMustBeInitialized(TestCase):
     def test_must_be_initialized_failure(self):
         """`must_be_initialized` raises error if blacklist not initialized."""
         failure = MagicMock()
-        failure.__class__.__name__ = 'Blacklist'
+        failure.__class__.__name__ = "Blacklist"
         failure.initialized = False
         failure.return_value = False
         # obj not initialized, so error is raised.
@@ -132,7 +137,7 @@ class TestIsBlacklisted(TestCase):
 
         Figuring what exactly to patch a learning experience.
         """
-        with patch('werkzeug.local.LocalProxy._get_current_object') as app:
+        with patch("werkzeug.local.LocalProxy._get_current_object") as app:
             app_context = MagicMock()
             app_context.extensions.get.return_value = Blacklist()
             app.return_value = app_context
@@ -146,11 +151,11 @@ class TestIsBlacklisted(TestCase):
 
         mocked out: `_get_blacklisted`
         """
-        with patch('blacklist.utilities._get_blacklist') as ctx:
+        with patch("flask_blacklist.utilities._get_blacklist") as ctx:
             bl = MagicMock()
             bl.is_blacklisted.return_value = True
             ctx.return_value = bl
-            val = is_blacklisted('123')
+            val = is_blacklisted("123")
             self.assertEqual(val, True)
             ctx.assert_called()
             bl.is_blacklisted.assert_called()
@@ -160,7 +165,3 @@ class TestIsBlacklisted(TestCase):
 def test_func(test_obj):
     """Return called test_obj"""
     return test_obj()
-
-
-if __name__ == '__main__':
-    main()  # pragma: no cover
