@@ -1,5 +1,6 @@
 ## 🔥Flask_Blacklist🔥
-
+[![Build Status](https://travis-ci.com/jakkso/flask_blacklist.svg?branch=master)](https://travis-ci.com/jakkso/flask_blacklist)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 ### What
 It's a Flask extension designed to work with `flask_sqlalchemy` and `flask_pratorian` to blacklist tokens!
 
